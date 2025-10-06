@@ -74,3 +74,5 @@ wrapt==1.17.3
 WTForms==3.2.1
 yt-dlp==2025.9.5
 ytmusicapi==1.11.1
+gunicorn
+
