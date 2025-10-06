@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; text-align: center;">
+    <h2>Login - Sistema da ONG</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+        <div style="margin-bottom: 10px;">
+            <label for="usuario">Usuário:</label>
+            <input type="text" name="usuario" id="usuario" required>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
+        </div>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color:red;">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}
