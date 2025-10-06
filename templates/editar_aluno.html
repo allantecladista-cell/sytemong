@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Aluno{% endblock %}
+
+{% block content %}
+<style>
+.form-container {
+    max-width: 800px; /* largura aproximada de uma folha A4 */
+    margin: 30px auto; /* centralizado horizontalmente */
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section h3 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="email"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+button.submit-btn {
+    width: 30%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.submit-btn:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 900px) {
+    .form-container {
+        width: 90%;
+    }
+    button.submit-btn {
+        width: 50%;
+    }
+}
+</style>
+
+<div class="form-container">
+    <h2>Editar Aluno</h2>
+    <form method="POST" action="{{ url_for('editar_aluno', aluno_id=aluno_id) }}">
+
+        <!-- DADOS PESSOAIS -->
+        <div class="form-section">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" value="{{ aluno.nome }}" required>
+
+            <div style="display:flex; gap:20px;">
+                <div style="flex:2;">
+                    <label for="data_nascimento">Data de Nascimento:</label>
+                    <input type="date" name="data_nascimento" id="data_nascimento" value="{{ aluno.data_nascimento }}" required>
+                </div>
+                <div style="flex:1;">
+                    <label for="idade">Idade:</label>
+                    <input type="text" name="idade" id="idade" value="{{ aluno.idade }}" readonly>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:20px;">
+                <div style="flex:1;">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" name="cpf" id="cpf" value="{{ aluno.cpf }}">
+                </div>
+                <div style="flex:1;">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" value="{{ aluno.rg }}">
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap: wrap;">
+                <div style="flex:1; display:flex; align-items:center; gap:10px;">
+                    <label>Sexo:</label>
+                    <input type="radio" name="sexo" value="Feminino" id="sexo_f" {% if aluno.sexo == 'Feminino' %}checked{% endif %}> <label for="sexo_f">Feminino</label>
+                    <input type="radio" name="sexo" value="Masculino" id="sexo_m" {% if aluno.sexo == 'Masculino' %}checked{% endif %}> <label for="sexo_m">Masculino</label>
+                </div>
+                <div style="flex:1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" value="{{ aluno.estado_civil }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- DADOS DE CONTATO -->
+        <div class="form-section">
+            <h3>Dados de Contato</h3>
+            <label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" id="endereco" value="{{ aluno.endereco }}">
+
+            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                <div style="flex:1;">
+                    <label for="cep">CEP:</label>
+                    <input type="text" name="cep" id="cep" value="{{ aluno.cep }}">
+                </div>
+                <div style="flex:1;">
+                    <label for="telefone">Telefone Fixo:</label>
+                    <input type="text" name="telefone" id="telefone" value="{{ aluno.telefone }}">
+                </div>
+                <div style="flex:1;">
+                    <label for="celular">Celular:</label>
+                    <input type="text" name="celular" id="celular" value="{{ aluno.celular }}">
+                </div>
+            </div>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{ aluno.email }}">
+        </div>
+
+        <!-- DADOS ESCOLARES / PROFISSIONAIS -->
+        <div class="form-section">
+            <h3>Dados Escolares / Profissionais</h3>
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap: wrap;">
+                <div style="flex:1; display:flex; align-items:center; gap:5px;">
+                    <label>Estuda?</label>
+                    <input type="radio" name="estuda" value="Sim" id="estuda_s" {% if aluno.estuda == 'Sim' %}checked{% endif %}> <label for="estuda_s">Sim</label>
+                    <input type="radio" name="estuda" value="Nao" id="estuda_n" {% if aluno.estuda == 'Nao' %}checked{% endif %}> <label for="estuda_n">Não</label>
+                </div>
+                <div style="flex:2;">
+                    <label for="obs_estuda">Obs:</label>
+                    <input type="text" name="obs_estuda" id="obs_estuda" value="{{ aluno.obs_estuda }}">
+                </div>
+            </div>
+
+            <label for="escola">Instituição:</label>
+            <input type="text" name="escola" id="escola" value="{{ aluno.escola }}">
+
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap: wrap;">
+                <div style="flex:1; display:flex; align-items:center; gap:5px;">
+                    <label>Trabalha?</label>
+                    <input type="radio" name="trabalha" value="Sim" id="trabalha_s" {% if aluno.trabalha == 'Sim' %}checked{% endif %}> <label for="trabalha_s">Sim</label>
+                    <input type="radio" name="trabalha" value="Nao" id="trabalha_n" {% if aluno.trabalha == 'Nao' %}checked{% endif %}> <label for="trabalha_n">Não</label>
+                </div>
+                <div style="flex:2;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" value="{{ aluno.profissao }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- DADOS SOBRE SAÚDE -->
+        <div class="form-section">
+            <h3>Dados sobre Saúde</h3>
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap: wrap;">
+                <div style="flex:1; display:flex; align-items:center; gap:5px;">
+                    <label>Necessidades Especiais?</label>
+                    <input type="radio" name="necessidade_especial" value="Sim" id="nes_s" {% if aluno.necessidade_especial == 'Sim' %}checked{% endif %}> <label for="nes_s">Sim</label>
+                    <input type="radio" name="necessidade_especial" value="Nao" id="nes_n" {% if aluno.necessidade_especial == 'Nao' %}checked{% endif %}> <label for="nes_n">Não</label>
+                </div>
+                <div style="flex:2;">
+                    <label for="necessidade_detalhe">Qual?</label>
+                    <input type="text" name="necessidade_detalhe" id="necessidade_detalhe" value="{{ aluno.necessidade_detalhe }}">
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:20px; flex-wrap: wrap;">
+                <div style="flex:1; display:flex; align-items:center; gap:5px;">
+                    <label>Alergia?</label>
+                    <input type="radio" name="alergia" value="Sim" id="alergia_s" {% if aluno.alergia == 'Sim' %}checked{% endif %}> <label for="alergia_s">Sim</label>
+                    <input type="radio" name="alergia" value="Nao" id="alergia_n" {% if aluno.alergia == 'Nao' %}checked{% endif %}> <label for="alergia_n">Não</label>
+                </div>
+                <div style="flex:2;">
+                    <label for="alergia_detalhe">Qual?</label>
+                    <input type="text" name="alergia_detalhe" id="alergia_detalhe" value="{{ aluno.alergia_detalhe }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- AUTORIZAÇÃO PARA MENOR DE IDADE -->
+        <div class="form-section">
+            <h3>Autorização para Menor de Idade</h3>
+
+            <label for="nome_responsavel">Nome do Responsável:</label>
+            <input type="text" name="nome_responsavel" id="nome_responsavel" value="{{ aluno.nome_responsavel }}">
+
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap: wrap;">
+                <input type="radio" name="tipo_responsavel" value="Pai" id="resp_pai" {% if aluno.tipo_responsavel == 'Pai' %}checked{% endif %}> <label for="resp_pai">Pai</label>
+                <input type="radio" name="tipo_responsavel" value="Mae" id="resp_mae" {% if aluno.tipo_responsavel == 'Mae' %}checked{% endif %}> <label for="resp_mae">Mãe</label>
+                <input type="radio" name="tipo_responsavel" value="Outros" id="resp_outros" {% if aluno.tipo_responsavel == 'Outros' %}checked{% endif %}> <label for="resp_outros">Outros</label>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                <div style="flex:1;">
+                    <label for="cpf_responsavel">CPF:</label>
+                    <input type="text" name="cpf_responsavel" id="cpf_responsavel" value="{{ aluno.cpf_responsavel }}">
+                </div>
+                <div style="flex:1;">
+                    <label for="rg_responsavel">RG:</label>
+                    <input type="text" name="rg_responsavel" id="rg_responsavel" value="{{ aluno.rg_responsavel }}">
+                </div>
+            </div>
+
+            <label for="termo">Termo de Responsabilidade:</label>
+            <textarea name="termo" id="termo" rows="3">{{ aluno.termo }}</textarea>
+        </div>
+
+        <div style="text-align:center; margin-top:20px;">
+            <button type="submit" class="submit-btn">Atualizar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

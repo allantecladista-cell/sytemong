@@ -1,0 +1,12 @@
+<div style="margin-top: 20px;">
+    {% if aluno[9] == True %}
+        <!-- aluno[9] é o campo "ativo" -->
+        <form action="{{ url_for('inativar_aluno', id=aluno[0]) }}" method="post" style="display:inline;">
+            <button type="submit" style="background-color: red; color: white; padding: 10px;">Marcar como Inativo</button>
+        </form>
+    {% else %}
+        <form action="{{ url_for('reativar_aluno', id=aluno[0]) }}" method="post" style="display:inline;">
+            <button type="submit" style="background-color: green; color: white; padding: 10px;">Reativar Aluno</button>
+        </form>
+    {% endif %}
+</div>

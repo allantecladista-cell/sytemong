@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Atividades{% endblock %}
+
+{% block content %}
+<style>
+.tab-container {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+.tab {
+    padding: 10px 20px;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+}
+.tab.active {
+    background-color: #4CAF50;
+    color: white;
+}
+.tab-content {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-top: none;
+}
+.tab-content.active {
+    display: block;
+}
+.lista-registros {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+.lista-registros div {
+    padding: 5px;
+    cursor: pointer;
+}
+.lista-registros div:hover {
+    background-color: #f0f0f0;
+}
+</style>
+
+<div class="tab-container">
+    <div class="tab active" data-tab="categoria">Categoria</div>
+    <div class="tab" data-tab="atividade">Atividade</div>
+    <div class="tab" data-tab="curso">Curso</div>
+    <div class="tab" data-tab="oficina">Oficina</div>
+</div>
+
+<!-- CATEGORIA -->
+<div class="tab-content active" id="categoria">
+    <h3>Editar Categoria</h3>
+    <div class="lista-registros">
+        {% for c in categorias %}
+            <div data-id="{{ c[0] }}" data-nome="{{ c[1] }}">{{ c[1] }}</div>
+        {% endfor %}
+    </div>
+    <form method="POST">
+        <input type="hidden" name="tipo" value="categoria">
+        <input type="hidden" name="registro_id" id="categoria_id">
+        <label>Nome:</label>
+        <input type="text" name="nome" id="categoria_nome">
+        <button type="submit">Salvar alterações</button>
+    </form>
+</div>
+
+<!-- ATIVIDADE -->
+<div class="tab-content" id="atividade">
+    <h3>Editar Atividade</h3>
+    <div class="lista-registros">
+        {% for a in atividades %}
+            <div data-id="{{ a[0] }}" data-nome="{{ a[1] }}" data-categoria="{{ a[2] }}">{{ a[1] }}</div>
+        {% endfor %}
+    </div>
+    <form method="POST">
+        <input type="hidden" name="tipo" value="atividade">
+        <input type="hidden" name="registro_id" id="atividade_id">
+        <label>Nome:</label>
+        <input type="text" name="nome_display" id="atividade_nome">
+        <label>Categoria:</label>
+        <select name="id_categoria" id="atividade_categoria">
+            {% for c in categorias %}
+                <option value="{{ c[0] }}">{{ c[1] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Salvar alterações</button>
+    </form>
+</div>
+
+<!-- CURSO -->
+<div class="tab-content" id="curso">
+    <h3>Editar Curso</h3>
+    <div class="lista-registros">
+        {% for c in cursos %}
+            <div data-id="{{ c[0] }}"
+                 data-nome="{{ c[1] }}" data-atividade="{{ c[2] }}"
+                 data-instrutor="{{ c[3] }}" data-duracao="{{ c[4] }}"
+                 data-inicio="{{ c[5] }}" data-fim="{{ c[6] }}"
+                 data-horario="{{ c[7] }}" data-limite="{{ c[8] }}" data-descricao="{{ c[9] }}">
+                 {{ c[1] }}
+            </div>
+        {% endfor %}
+    </div>
+    <form method="POST">
+        <input type="hidden" name="tipo" value="curso">
+        <input type="hidden" name="registro_id" id="curso_id">
+        <label>Nome:</label><input type="text" name="nome" id="curso_nome">
+        <label>Atividade:</label>
+        <select name="id_atividade" id="curso_atividade">
+            {% for a in atividades %}
+                <option value="{{ a[0] }}">{{ a[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Professor:</label>
+        <select name="id_instrutor" id="curso_instrutor">
+            {% for i in instrutores %}
+                <option value="{{ i[0] }}">{{ i[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Duração:</label><input type="text" name="duracao" id="curso_duracao">
+        <label>Data Início:</label><input type="date" name="data_inicio" id="curso_inicio">
+        <label>Data Fim:</label><input type="date" name="data_fim" id="curso_fim">
+        <label>Horário:</label><input type="time" name="horario" id="curso_horario">
+        <label>Limite:</label><input type="number" name="limite_alunos" id="curso_limite">
+        <label>Descrição:</label><input type="text" name="descricao" id="curso_descricao">
+        <label>Dias:</label>
+        <div class="checkbox-dias-container">
+            {% for d in dias %}
+                <div class="checkbox-dia">
+                    <label for="curso_dia{{ d[0] }}">{{ d[1][0] }}</label>
+                    <input type="checkbox" name="dias" value="{{ d[0] }}" id="curso_dia{{ d[0] }}">
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit">Salvar alterações</button>
+    </form>
+</div>
+
+<!-- OFICINA -->
+<div class="tab-content" id="oficina">
+    <h3>Editar Oficina</h3>
+    <div class="lista-registros">
+        {% for o in oficinas %}
+            <div data-id="{{ o[0] }}" data-nome="{{ o[1] }}" data-atividade="{{ o[2] }}"
+                 data-instrutor="{{ o[3] }}" data-faixa_min="{{ o[4] }}" data-faixa_max="{{ o[5] }}"
+                 data-horario="{{ o[6] }}" data-limite="{{ o[7] }}" data-descricao="{{ o[8] }}">
+                 {{ o[1] }}
+            </div>
+        {% endfor %}
+    </div>
+    <form method="POST">
+        <input type="hidden" name="tipo" value="oficina">
+        <input type="hidden" name="registro_id" id="oficina_id">
+        <label>Nome:</label><input type="text" name="nome" id="oficina_nome">
+        <label>Atividade:</label>
+        <select name="id_atividade" id="oficina_atividade">
+            {% for a in atividades %}
+                <option value="{{ a[0] }}">{{ a[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Professor:</label>
+        <select name="id_instrutor" id="oficina_instrutor">
+            {% for i in instrutores %}
+                <option value="{{ i[0] }}">{{ i[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Faixa Etária Mín:</label><input type="number" name="faixa_etaria_min" id="oficina_faixa_min">
+        <label>Faixa Etária Máx:</label><input type="number" name="faixa_etaria_max" id="oficina_faixa_max">
+        <label>Horário:</label><input type="time" name="horario" id="oficina_horario">
+        <label>Limite:</label><input type="number" name="limite_alunos" id="oficina_limite">
+        <label>Descrição:</label><input type="text" name="descricao" id="oficina_descricao">
+        <label>Dias:</label>
+        <div class="checkbox-dias-container">
+            {% for d in dias %}
+                <div class="checkbox-dia">
+                    <label for="oficina_dia{{ d[0] }}">{{ d[1][0] }}</label>
+                    <input type="checkbox" name="dias" value="{{ d[0] }}" id="oficina_dia{{ d[0] }}">
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit">Salvar alterações</button>
+    </form>
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(tab => tab.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+}));
+
+// Função para preencher formulário ao clicar na lista
+function preencherFormulario(listaSelector, campos) {
+    document.querySelectorAll(listaSelector + ' div').forEach(div => {
+        div.addEventListener('click', () => {
+            campos.forEach(c => {
+                const elem = document.getElementById(c.id);
+                if(elem.type === 'checkbox') {
+                    elem.checked = c.checkbox_ids ? c.checkbox_ids.includes(div.dataset[c.data]) : false;
+                } else {
+                    elem.value = div.dataset[c.data] || '';
+                }
+            });
+            document.getElementById(campos[0].id.replace(/_.*/, '_id')).value = div.dataset.id;
+        });
+    });
+}
+
+// Categoria
+preencherFormulario('#categoria', [{id:'categoria_nome', data:'nome'}]);
+
+// Atividade
+preencherFormulario('#atividade', [
+    {id:'atividade_nome', data:'nome'},
+    {id:'atividade_categoria', data:'categoria'}
+]);
+
+// Curso
+preencherFormulario('#curso', [
+    {id:'curso_nome', data:'nome'},
+    {id:'curso_atividade', data:'atividade'},
+    {id:'curso_instrutor', data:'instrutor'},
+    {id:'curso_duracao', data:'duracao'},
+    {id:'curso_inicio', data:'inicio'},
+    {id:'curso_fim', data:'fim'},
+    {id:'curso_horario', data:'horario'},
+    {id:'curso_limite', data:'limite'},
+    {id:'curso_descricao', data:'descricao'}
+]);
+
+// Oficina
+preencherFormulario('#oficina', [
+    {id:'oficina_nome', data:'nome'},
+    {id:'oficina_atividade', data:'atividade'},
+    {id:'oficina_instrutor', data:'instrutor'},
+    {id:'oficina_faixa_min', data:'faixa_min'},
+    {id:'oficina_faixa_max', data:'faixa_max'},
+    {id:'oficina_horario', data:'horario'},
+    {id:'oficina_limite', data:'limite'},
+    {id:'oficina_descricao', data:'descricao'}
+]);
+</script>
+{% endblock %}

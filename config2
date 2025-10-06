@@ -1,0 +1,15 @@
+import os
+
+class Config:
+    # Tenta pegar a variável do ambiente (Render)
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+    # Se estiver rodando localmente, usa esses dados abaixo
+    if not DATABASE_URL:
+        DB_HOST = "localhost"
+        DB_NAME = "ongdb"
+        DB_USER = "allanvieira"
+        DB_PASSWORD = "@Piroca16"
+        DB_PORT = 5432
+
+        DATABASE_URL = f"dbname={DB_NAME} user={DB_USER} password={DB_PASSWORD} host={DB_HOST} port={DB_PORT}"

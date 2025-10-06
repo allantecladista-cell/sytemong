@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>ficha_impressao</title>
+  <meta name="generator" content="Google Web Designer 16.4.0.0711">
+  <style>
+    body { font-family: Arial; margin: 2cm; color: #000; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    .ficha { 
+        /* border: 1px solid #000; */
+        padding: 20px; }
+    .imagem-ficha { width: 200px; display: block; margin: 0 auto 20px auto; }
+    .campo { margin-bottom: 10px; }
+    .label { font-weight: bold; }
+    @media print { button { display: none; } }
+
+    @media print {
+    body { margin: 1cm; }
+    button { display: none; }
+}
+
+  </style>
+</head>
+
+<body class="htmlNoPages; background-color #ffffff;">
+  
+   <img src="{{ url_for('static', filename='Imagens/Rel.png') }}" class="print-logo" alt="Logo da ONG">
+
+    <h2 style="text-align: center; margin-bottom: 20px;">Ficha de Cadastro do Aluno</h2>
+  
+  <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+    <p><strong>Gênero:</strong> {{ aluno.genero }}</p>
+    <p><strong>Data de Nascimento:</strong> {{ aluno.data_nascimento }}</p>
+    <p><strong>CPF:</strong> {{ aluno.cpf }}</p>
+    <p><strong>Pai:</strong> {{ aluno.pai }}</p>
+    <p><strong>Mãe:</strong> {{ aluno.mae }}</p>
+    <p><strong>Telefone:</strong> {{ aluno.telefone }}</p>
+    <p><strong>Email:</strong> {{ aluno.email }}</p>
+    <p><strong>Endereço:</strong> {{ aluno.endereco }}</p>
+    <p><strong>Escolaridade:</strong> {{ aluno.escolaridade }}</p>
+    <p><strong>Escola:</strong> {{ aluno.escola }}</p>
+    <p><strong>Turno:</strong> {{ aluno.turno }}</p>
+
+    <hr style="margin: 20px 0;">
+
+    <h3>Dados do Responsável</h3>
+    <p><strong>Nome:</strong> {{ aluno.nome_responsavel }}</p>
+    <p><strong>Telefone:</strong> {{ aluno.telefone_responsavel }}</p>
+    <p><strong>Email:</strong> {{ aluno.email_responsavel }}</p>
+    <p><strong>Parentesco:</strong> {{ aluno.parentesco }}</p>
+ </div>
+  
+  
+  <br><br><br><br><br><br>
+  
+  <h3 style="text-align: center; margin-bottom: 20px;"> _______________________________ </h3>
+  
+<h3 style="text-align: center; margin-bottom: 20px;">Assinatura Responsavel</h3>
+
+  <br><br>
+    <button onclick="window.print()">Imprimir</button>
+ 
+</body>
+
+</html>

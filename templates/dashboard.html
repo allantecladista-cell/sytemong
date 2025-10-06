@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 50px auto; text-align: center;">
+    <h1>Bem-vindo, {{ usuario }}!</h1>
+    {# <p>Escolha uma opção:</p>
+    <ul>
+        <li><a href="{{ url_for('cadastrar_aluno') }}">Cadastrar Aluno</a></li>
+        <li><a href="{{ url_for('cadastrar_funcionario') }}">Cadastrar Funcionário</a></li>
+        <li><a href="{{ url_for('logout') }}">Sair</a></li>
+    </ul>#}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul style="color:red;">
+        {% for category, message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

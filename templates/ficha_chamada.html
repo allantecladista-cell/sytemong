@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Ficha de Chamada{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        color: #000;
+    }
+
+    /* Containers empilhados verticalmente */
+    .container {
+        width: 100%;
+        max-width: 210mm;
+        margin: 0 auto 10px;
+        padding: 5mm;
+        box-sizing: border-box;
+        display: block;
+        background-color: #fff;
+        text-align: center;
+    }
+
+    .logo {
+        display: block;
+        margin: 0 auto 5px auto;
+        max-height: 50px;
+        object-fit: contain;
+    }
+
+    h2, h3 {
+        margin: 5px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        font-size: 10pt;
+        text-align: left;
+        padding: 3px;
+    }
+
+    th {
+        background-color: #e0e0e0;
+    }
+
+    td.aluno {
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    /* --- Impressão --- */
+    @media print {
+        /* Oculta tudo do base.html que não queremos imprimir */
+        header, footer, nav, .botoes {
+            display: none !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+    }
+
+</style>
+
+<div class="container">
+    <img src="{{ url_for('static', filename='Imagens/Rel.png') }}" class="logo">
+
+    <h2>Ficha de Chamada</h2>
+<br><br> 
+  <div style="width:100%; text-align:left; margin-top:10px;">
+    Professor: {{ instrutor_nome }}
+</div>
+
+<div style="display:flex; justify-content:flex-start; gap:50px; margin-top:10px;">
+    <div style="width:10px; text-align:left;">Mês: {{ mes_nome }}</div>
+    <div style="width:130px; text-align:left; margin-left:180px;">Atividade: {{ atividade.nome }}</div>
+    <div style="width:230px; text-align:left; margin-left:150px;">Dias: {{ dias_atividade|join(', ') }}</div>
+</div>
+
+    <table style="width:100%; margin-top:10px;">
+        <thead>
+            <tr>
+                <th style="width:8mm; text-align:center;">N</th>
+                <th style="width:70mm; text-align:left; padding-left:2mm;">Aluno</th>
+                {% for i in range(20) %}
+                    <th style="width:6.1mm;"></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td style="text-align:center;">{{ loop.index }}</td>
+                <td style="text-align:left; padding-left:2mm;">{{ aluno.nome }}</td>
+                {% for i in range(20) %}
+                    <td style="width:6.1mm;"></td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br> 
+
+    <div style="width:200px; border-bottom:1px solid #000; margin:50px auto 5px auto;"></div>
+    <div style="font-size:12px; text-align:center;">Assinatura Professor</div>
+
+<br><br> <br><br> 
+
+
+    <div class="botoes">
+    <a href="{{ url_for('dashboard') }}"><button>Voltar</button></a>
+    <button onclick="window.print()">Imprimir</button>
+</div>
+
+</div>
+
+{% endblock %}

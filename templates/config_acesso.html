@@ -1,0 +1,36 @@
+<!-- config_acesso.html -->
+{% extends 'base.html' %}
+
+{% block title %}Configuração de Acesso{% endblock %}
+
+{% block content %}
+<h2>Configuração de Acesso dos Funcionários</h2>
+<form method="POST">
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Nome</th>
+            <th>Chamada</th>
+            <th>Cadastro</th>
+            <th>Impressão</th>
+            <th>Passeio</th>
+            <th>Comprovante</th>
+            <th>Relatórios</th>
+            <th>Ações</th>
+        </tr>
+        {% for f in funcionarios %}
+        <tr>
+            <td>{{ f.nome }}</td>
+            <td><input type="checkbox" name="acesso_chamada_{{ f.id }}" {% if f.acesso_chamada %}checked{% endif %}></td>
+            <td><input type="checkbox" name="acesso_cadastro_{{ f.id }}" {% if f.acesso_cadastro %}checked{% endif %}></td>
+            <td><input type="checkbox" name="acesso_impressao_{{ f.id }}" {% if f.acesso_impressao %}checked{% endif %}></td>
+            <td><input type="checkbox" name="acesso_passeio_{{ f.id }}" {% if f.acesso_passeio %}checked{% endif %}></td>
+            <td><input type="checkbox" name="acesso_comprovante_{{ f.id }}" {% if f.acesso_comprovante %}checked{% endif %}></td>
+            <td><input type="checkbox" name="acesso_relatorios_{{ f.id }}" {% if f.acesso_relatorios %}checked{% endif %}></td>
+            <td><a href="{{ url_for('editar_acesso_funcionario', func_id=f.id) }}">Editar Individual</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <button type="submit">Salvar Configurações</button>
+</form>
+{% endblock %}

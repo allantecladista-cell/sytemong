@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo de Crachá</title>
+    <style>
+        /* Estilos gerais para o corpo e layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            gap: 40px; /* Espaço entre a frente e o verso */
+            flex-wrap: wrap; /* Para quebrar a linha se a tela for pequena */
+        }
+
+        /* Container principal do crachá */
+        .badge-container {
+            width: 320px; /* Largura do crachá (exemplo em pixels, ajuste conforme necessário) */
+            height: 500px; /* Altura do crachá */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            position: relative;
+        }
+
+        /* Estilos para a FRENTE do Crachá */
+        .badge-front {
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            box-sizing: border-box;
+            background: linear-gradient(180deg, #007bff 30%, #ffffff 30%); /* Exemplo de cor de topo */
+            color: #333;
+        }
+
+        .company-logo {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #007bff;
+            font-size: 14px; /* Substitua por sua imagem de logo */
+            color: #007bff;
+            margin-top: 10px;
+        }
+
+        .photo {
+            width: 120px;
+            height: 120px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 20px auto 20px;
+            border: 5px solid #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px; /* Substitua por sua imagem de foto */
+        }
+
+        .name {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        .title {
+            font-size: 1.2em;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .id-number {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Estilos para o VERSO do Crachá */
+        .badge-back {
+            padding: 20px;
+            height: 100%;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .badge-back h3 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .contact-info, .rules {
+            margin-bottom: 20px;
+        }
+
+        .contact-info p, .rules p {
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .barcode {
+            width: 80%;
+            height: 50px;
+            background-color: #333;
+            margin: 30px auto 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 10px; /* Substitua por sua imagem/código de barras real */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="badge-container">
+        <div class="badge-front">
+            <div class="company-logo">LOGO</div>
+            <div class="photo">FOTO</div>
+            <div class="name">Nome Completo</div>
+            <div class="title">Cargo / Função</div>
+            <div class="id-number">ID: 123456</div>
+        </div>
+    </div>
+
+    <div class="badge-container">
+        <div class="badge-back">
+            <h3>Informações de Contato</h3>
+            <div class="contact-info">
+                <p><strong>Empresa:</strong> Nome da Empresa S.A.</p>
+                <p><strong>Telefone:</strong> (99) 9999-9999</p>
+                <p><strong>Email:</strong> contato@empresa.com.br</p>
+                <p><strong>Endereço:</strong> Rua Exemplo, 123</p>
+            </div>
+            <h3>Regras e Avisos</h3>
+            <div class="rules">
+                <p>- Este crachá é pessoal e intransferível.</p>
+                <p>- Uso obrigatório nas dependências da empresa.</p>
+                <p>- Em caso de perda, comunique imediatamente.</p>
+            </div>
+            <div class="barcode">CÓDIGO DE BARRAS / QR CODE</div>
+        </div>
+    </div>
+
+</body>
+</html>

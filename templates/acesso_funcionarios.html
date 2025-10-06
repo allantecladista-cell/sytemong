@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciamento de Acesso{% endblock %}
+
+{% block content %}
+<style>
+.tablink {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.tablink:hover { background-color: #ddd; }
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin: 0 auto 30px auto;
+}
+
+label { display: block; margin-top: 10px; }
+
+input[type="text"], input[type="password"], select {
+    padding: 6px;
+    margin-top: 2px;
+    width: 300px;  /* largura mais compacta */
+    max-width: 100%; /* responsivo */
+}
+
+button { margin-top: 10px; padding: 8px 15px; cursor: pointer; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    table-layout: fixed; /* permite largura fixa das colunas */
+}
+
+th, td { padding: 8px; border: 1px solid #ddd; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+th { background-color: #f2f2f2; }
+
+th.nome, td.nome { width: 150px; }
+th.cargo, td.cargo { width: 100px; }
+th.login, td.login { width: 120px; }
+th.tipo_usuario, td.tipo_usuario { width: 100px; }
+th.acao, td.acao { width: 250px; }
+
+td.acao input[type="password"] {
+    width: 120px;  /* inputs menores na tabela */
+    margin-right: 5px;
+}
+
+button.action-btn { padding: 5px 10px; border: none; border-radius: 4px; color: white; cursor: pointer; margin-right: 5px; }
+button.edit-btn { background-color: #4CAF50; }
+button.edit-btn:hover { background-color: #45a049; }
+button.inactive-btn { background-color: #f44336; }
+button.inactive-btn:hover { background-color: #d32f2f; }
+
+form.search-form { max-width: 600px; margin: 0 auto 20px auto; display: flex; gap: 10px; }
+form.search-form input { flex: 1; padding: 6px; }
+form.search-form button { padding: 6px 12px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; }
+form.search-form button:hover { background-color: #1976D2; }
+</style>
+
+<h2 style="text-align:center;">Configuração de Acesso</h2>
+
+<!-- Abas -->
+<div style="text-align:center; margin-bottom:20px;">
+    <button class="tablink" onclick="openTab('Cadastro')">Cadastrar Acesso</button>
+    <button class="tablink" onclick="openTab('Busca')">Buscar/Alterar Acesso</button>
+</div>
+
+<!-- Aba Cadastro -->
+<!-- Aba Cadastro -->
+<div id="Cadastro" class="tabcontent">
+    <form method="POST" style="display: flex; flex-direction: column; align-items: center;">
+        <label>Funcionário:</label>
+        <select name="id_funcionario" required style="width: 300px;">
+            {% for f in funcionarios_disponiveis %}
+                <option value="{{ f.id }}">{{ f.nome }} - {{ f.cargo }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Tipo de Usuário:</label>
+        <select name="tipo_usuario" required style="width: 300px;">
+            {% for t in tipos_disponiveis %}
+                <option value="{{ t.value }}">{{ t.label }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Login:</label>
+        <input type="text" name="login" maxlength="50" required style="width: 300px;">
+
+        <label>Senha:</label>
+        <input type="password" name="senha" maxlength="20" required style="width: 300px;">
+
+        <label>Confirmação de Senha:</label>
+        <input type="password" name="senha_confirmacao" maxlength="20" required style="width: 300px;">
+
+        {% if mostrar_excecao %}
+        <label>Senha de Confirmação do Admin:</label>
+        <input type="password" name="senha_excecao" maxlength="20" style="width: 300px;">
+        {% endif %}
+
+        <button type="submit" class="action-btn edit-btn" style="margin-top: 20px;">Cadastrar Acesso</button>
+    </form>
+</div>
+
+
+<!-- Aba Busca/Alteração -->
+<div id="Busca" class="tabcontent">
+    <form method="GET" class="search-form">
+        <input type="text" name="busca" placeholder="Nome ou login">
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if resultados %}
+    <table>
+        <tr>
+            <th class="nome">Nome</th>
+            <th class="cargo">Cargo</th>
+            <th class="login">Login</th>
+            <th class="tipo_usuario">Tipo de Usuário</th>
+            <th class="acao">Ação</th>
+        </tr>
+        {% for u in resultados %}
+        <tr>
+            <td class="nome">{{ u.nome }}</td>
+            <td class="cargo">{{ u.cargo }}</td>
+            <td class="login">{{ u.login }}</td>
+            <td class="tipo_usuario">{{ u.tipo_usuario }}</td>
+            <td class="acao">
+                <form method="POST">
+                    <input type="hidden" name="id_usuario" value="{{ u.id }}">
+                    <input type="password" name="nova_senha" placeholder="Nova senha" maxlength="20" required>
+                    <input type="password" name="confirma_senha" placeholder="Confirme a senha" maxlength="20" required>
+
+                    {% if u.mostrar_excecao %}
+                    <input type="password" name="senha_excecao" placeholder="Senha de Confirmação do Admin" maxlength="20">
+                    {% endif %}
+
+                    <button type="submit" class="action-btn edit-btn">Atualizar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p style="text-align:center;">Nenhum usuário encontrado.</p>
+    {% endif %}
+</div>
+
+<script>
+function openTab(tabName) {
+    var i, x;
+    x = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < x.length; i++) { x[i].style.display = "none"; }
+    document.getElementById(tabName).style.display = "block";
+}
+// Abrir a aba Cadastro por padrão
+openTab('Cadastro');
+</script>
+
+{% endblock %}

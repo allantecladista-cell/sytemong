@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados da Pesquisa{% endblock %}
+
+{% block content %}
+<style>
+.resultado-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 950px;
+    margin: 30px auto;
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+td a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+td a:hover {
+    color: #1976D2;
+    text-decoration: underline;
+}
+
+.limpar-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.limpar-btn:hover {
+    background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+    th, td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .limpar-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+</style>
+
+<div class="resultado-container">
+    {% if alunos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr>
+                    <td>{{ aluno[0] }}</td>
+                    <td>{{ aluno[1] }}</td>
+                    <td>{{ aluno[2] }}</td>
+                    <td>{{ 'Ativo' if aluno[3] else 'Inativo' }}</td>
+                    <td>
+    <a href="{{ url_for('cadastrar_alunos_atividades', aluno_id=aluno[0]) }}">Oficina/Curso</a> |
+    <a href="{{ url_for('editar_aluno', aluno_id=aluno[0]) }}">Editar</a> |
+    <a href="{{ url_for('ficha_de_cadastro', aluno_id=aluno[0]) }}">Imprimir</a> |
+    
+    <!-- Link estilo igual -->
+    <form method="POST" action="{{ url_for('toggle_aluno', id_aluno=aluno[0]) }}" style="display:inline;">
+        <a href="#" onclick="this.closest('form').submit(); return false;">
+            {{ 'Desativar' if aluno[3] else 'Ativar' }}
+        </a>
+    </form>
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center; font-size:18px; margin-top:20px;">Nenhum aluno encontrado para "{{ termo }}".</p>
+    {% endif %}
+
+    <a href="{{ url_for('pesquisar_aluno') }}" class="limpar-btn">Nova Pesquisa</a>
+</div>
+{% endblock %}

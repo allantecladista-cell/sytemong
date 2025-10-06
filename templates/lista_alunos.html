@@ -1,0 +1,35 @@
+<!-- lista_alunos.html -->
+{% extends 'base.html' %}
+
+{% block title %}Lista de Alunos{% endblock %}
+
+{% block content %}
+<h2>Lista de Alunos</h2>
+<a href="{{ url_for('cadastrar_aluno') }}">Novo Aluno</a>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th><th>Nome</th><th>CPF</th><th>Ativo</th><th>Ações</th>
+    </tr>
+    {% for aluno in alunos %}
+    <tr>
+        <td>{{ aluno[0] }}</td>
+        <td>{{ aluno[1] }}</td>
+        <td>{{ aluno[4] }}</td>
+        <td>{{ 'Sim' if aluno[16] else 'Não' }}</td>
+        <td>
+            <a href="{{ url_for('relatorio_aluno', aluno_id=aluno[0]) }}">Relatório</a> |
+            <a href="{{ url_for('editar_aluno', aluno_id=aluno[0]) }}">Editar</a> |
+            {% if aluno[16] %}
+                <form action="{{ url_for('inativar_aluno', aluno_id=aluno[0]) }}" method="POST" style="display:inline">
+                    <button type="submit">Inativar</button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('reativar_aluno', aluno_id=aluno[0]) }}" method="POST" style="display:inline">
+                    <button type="submit">Reativar</button>
+                </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

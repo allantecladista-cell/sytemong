@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crachá com QR Code Destacado</title>
+    <style>
+        /* --- MANTIDO INTEIRO --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .print-container {
+            width: 210mm; 
+            height: 70mm; 
+            display: flex; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px dashed #999; 
+        }
+
+        .badge-face {
+            width: 105mm; 
+            height: 70mm; 
+            overflow: hidden;
+            background-color: #fff;
+            position: relative;
+            box-sizing: border-box; 
+        }
+
+        .badge-front {
+            padding: 5mm;
+            height: 100%;
+            background: linear-gradient(180deg, #007bff 20%, #ffffff 20%); 
+            color: #333;
+            display: flex;
+            align-items: flex-start; 
+            gap: 5mm; 
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2mm; 
+            margin-top: 5mm; 
+        }
+
+        .student-photo {
+            width: 30mm;  
+            height: 40mm; 
+            background-color: #ccc;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #555;
+            text-align: center;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-grow: 1; 
+            margin-top: 5mm;
+        }
+
+        .company-logo {
+            width: 15mm;
+            height: 15mm;
+            background-color: #fff;
+            border-radius: 50%;
+            margin-bottom: 3mm;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #007bff;
+            font-size: 8px; 
+            color: #007bff;
+        }
+
+        .name {
+            font-size: 1em; 
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 1mm;
+        }
+
+        .title {
+            font-size: 0.8em;
+            color: #007bff;
+            font-weight: 500;
+            margin-bottom: 5mm;
+        }
+
+        .qrcode {
+            width: 35mm;
+            height: 35mm;
+            background-color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .badge-back {
+            padding: 5mm;
+            height: 100%;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .badge-back h3 {
+            color: #007bff;
+            border-bottom: 1px solid #007bff;
+            padding-bottom: 2px;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .contact-info, .rules {
+            margin-bottom: 5px;
+        }
+
+        .contact-info p, .rules p {
+            font-size: 0.7em; 
+            line-height: 1.3;
+        }
+
+        .matricula-info {
+            text-align: center;
+            margin-top: 5mm;
+            margin-bottom: 5mm;
+        }
+
+        .matricula-info .label {
+            font-size: 0.8em;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .matricula-info .number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .barcode {
+            width: 90%;
+            height: 8mm;
+            background-color: #333;
+            margin: 5mm auto 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 7px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="print-container">
+        <div class="badge-face badge-front">
+            
+            <div class="left-section">
+                <div class="student-photo">FOTO 3x4</div>
+            </div>
+
+            <div class="right-section">
+                <div class="company-logo">LOGO</div>
+                <!-- NOME DO ALUNO VINDO DO BANCO -->
+                <div class="name">{{ aluno.nome }}</div>
+                
+                <div class="qrcode">QR CODE ÚNICO (ACESSO)</div>
+            </div>
+
+        </div>
+
+        <div class="badge-face badge-back">
+            
+            <div class="matricula-info">
+                <div class="label">NÚMERO DE MATRÍCULA:</div>
+                <!-- MATRÍCULA VINDO DO BANCO -->
+                <div class="number">{{ aluno.id }}</div>
+            </div>
+
+            <h3>Informações da Instituição</h3>
+            <div class="contact-info">
+                <p><strong>Escola:</strong> Nome da Escola / Faculdade</p>
+                <p><strong>Telefone:</strong> (99) 9999-9999</p>
+                <p><strong>Email:</strong> contato@instituicao.edu.br</p>
+                <p><strong>Endereço:</strong> Rua Exemplo, 123</p>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>

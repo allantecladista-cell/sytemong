@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Relatório do Aluno{% endblock %}
+
+{% block content %}
+<style>
+/* Estilo de impressão */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-area, .print-area * {
+        visibility: visible;
+    }
+    .print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;   /* largura A4 */
+        height: 297mm;  /* altura A4 */
+        padding: 20mm;
+        box-sizing: border-box;
+        background-color: #fff;
+        border: none;   /* remove a borda na impressão */
+    }
+    .print-logo {
+        display: block;
+        margin: 0 auto 10px auto;
+        max-width: 200mm; /* limite da largura da imagem */
+        height: auto;     /* mantém proporção */
+    }
+    button {
+        display: none;  /* esconde o botão no print */
+    }
+}
+</style>
+
+<div class="print-area" style="width: 700px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff;">
+    
+    <!-- Imagem de topo -->
+
+    <h2 style="text-align: center; margin-bottom: 20px;">Ficha de Cadastro do Aluno</h2>
+    
+    <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+    <p><strong>Gênero:</strong> {{ aluno.genero }}</p>
+    <p><strong>Data de Nascimento:</strong> {{ aluno.data_nascimento }}</p>
+    <p><strong>CPF:</strong> {{ aluno.cpf }}</p>
+    <p><strong>Pai:</strong> {{ aluno.pai }}</p>
+    <p><strong>Mãe:</strong> {{ aluno.mae }}</p>
+    <p><strong>Telefone:</strong> {{ aluno.telefone }}</p>
+    <p><strong>Email:</strong> {{ aluno.email }}</p>
+    <p><strong>Endereço:</strong> {{ aluno.endereco }}</p>
+    <p><strong>Escolaridade:</strong> {{ aluno.escolaridade }}</p>
+    <p><strong>Escola:</strong> {{ aluno.escola }}</p>
+    <p><strong>Turno:</strong> {{ aluno.turno }}</p>
+
+    <hr style="margin: 20px 0;">
+
+    <h3>Dados do Responsável</h3>
+    <p><strong>Nome:</strong> {{ aluno.nome_responsavel }}</p>
+    <p><strong>Telefone:</strong> {{ aluno.telefone_responsavel }}</p>
+    <p><strong>Email:</strong> {{ aluno.email_responsavel }}</p>
+    <p><strong>Parentesco:</strong> {{ aluno.parentesco }}</p>
+
+   <a href="{{ url_for('ficha_de_cadastro', aluno_id=aluno.id) }}">
+    <button type="button">Imprimir Ficha de Cadastro</button>
+</a>
+</div>
+{% endblock %}

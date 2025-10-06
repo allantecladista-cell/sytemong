@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesquisar Funcionários{% endblock %}
+
+{% block content %}
+<style>
+.table-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button.action-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button.edit-btn {
+    background-color: #4CAF50;
+}
+
+button.edit-btn:hover {
+    background-color: #45a049;
+}
+
+button.inactive-btn {
+    background-color: #f44336;
+}
+
+button.inactive-btn:hover {
+    background-color: #d32f2f;
+}
+
+form.search-form {
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    gap: 10px;
+}
+
+form.search-form input {
+    flex: 1;
+    padding: 6px;
+}
+
+form.search-form button {
+    padding: 6px 12px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form.search-form button:hover {
+    background-color: #1976D2;
+}
+</style>
+
+<div class="table-container">
+    <h2 style="text-align:center;">Pesquisar Funcionários</h2>
+
+    <form method="POST" action="{{ url_for('buscar_funcionario') }}" class="search-form">
+        <input type="text" name="termo" placeholder="Digite nome ou CPF" value="{{ termo or '' }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if funcionarios %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Cargo</th>
+                    <th>Ativo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in funcionarios %}
+                    <tr>
+                        <td>{{ f.id }}</td>
+                        <td>{{ f.nome }}</td>
+                        <td>{{ f.cpf }}</td>
+                        <td>{{ f.cargo }}</td>
+                        <td>{{ 'Sim' if f.ativo else 'Não' }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_funcionario', funcionario_id=f.id) }}">
+                                <button class="action-btn edit-btn" type="button">Editar</button>
+                            </a>
+                            <a href="{{ url_for('inativar_funcionario', funcionario_id=f.id) }}">
+                                <button class="action-btn inactive-btn" type="button">Inativar</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align:center;">Nenhum funcionário encontrado.</p>
+    {% endif %}
+</div>
+{% endblock %}

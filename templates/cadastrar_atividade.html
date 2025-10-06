@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Atividades{% endblock %}
+
+{% block content %}
+<style>
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 30px auto;
+    box-sizing: border-box;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 300px;
+    padding: 6px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+button.submit-btn {
+    width: 50%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button.submit-btn:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    button.submit-btn {
+        width: 50%;
+    }
+}
+</style>
+
+<div class="form-container">
+    <h2>Cadastro de Atividades</h2>
+    <form method="POST" action="{{ url_for('cadastrar_atividade') }}">
+        <label for="nome">Nome da Atividade:</label>
+        <input type="text" name="nome" id="nome" required>
+
+        <label for="tipo">Tipo de Atividade:</label>
+        <select name="tipo" id="tipo" required>
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option value="curso">Curso</option>
+            <option value="oficina">Oficina</option>
+        </select>
+
+        <label for="id_categoria">Categoria:</label>
+        <select name="id_categoria" id="id_categoria" required>
+         <option value="">Selecione</option>
+         {% for cat in categorias %}
+        <option value="{{ cat.id }}">{{ cat.nome }}</option>
+             {% endfor %}
+        </select>
+
+        <label for="descricao">Descrição (opcional):</label>
+        <input type="text" name="descricao" id="descricao">
+
+        <div style="text-align:center; margin-top:40px;">
+            <button type="submit" class="submit-btn">Cadastrar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema ONG{% endblock %}</title>
+
+    <style>
+        /* Fundo da página */
+        body {
+            background-image: url("{{ url_for('static', filename='imagens/fundo.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cabeçalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Submenu dropdown */
+        .submenu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .submenu-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(76, 175, 80, 0.9);
+            min-width: 150px;
+            z-index: 1;
+            flex-direction: column;
+        }
+
+        .submenu-content a {
+            display: block;
+            padding: 8px 12px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .submenu-content a:hover {
+            background-color: rgba(56, 142, 60, 0.9);
+        }
+
+        .submenu:hover .submenu-content {
+            display: flex;
+        }
+
+        /* Container do conteúdo */
+        .container {
+            padding: 20px;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Início</a>
+
+        {% if session.get('nivel') in [0,1,3] %}
+            <a href="{{ url_for('cadastrar_aluno') }}">Cadastrar Aluno</a>
+            <a href="{{ url_for('buscar_aluno') }}">Buscar Alunos</a>
+            <a href="{{ url_for('cadastrar_funcionario') }}">Cadastrar Funcionário</a>
+            <a href="{{ url_for('acesso_funcionarios') }}">Acesso Funcionários</a> <!-- Link adicionado -->
+
+
+            <!-- Submenu Atividades -->
+<div class="submenu">
+    <a href="#">Atividades ▼</a>
+    <div class="submenu-content">
+        <a href="{{ url_for('cadastrar_categoria') }}">Cadastrar Categoria</a>
+        <a href="{{ url_for('cadastrar_atividade') }}">Cadastrar Atividade</a>
+        <a href="{{ url_for('cadastrar_curso') }}">Cadastrar Curso</a>
+        <a href="{{ url_for('cadastrar_oficina') }}">Cadastrar Oficina</a>
+        <a href="{{ url_for('tabela_atividades') }}">Tabela de Atividades</a>
+        {# <a href="{{ url_for('editar_atividades') }}">Editar Todas Atividades</a> #} <!-- Link desativado -->
+    </div>
+</div>
+        {% endif %}
+
+        {% if session.get('nivel') == 0 %}
+            <!-- Apenas Programador pode ver configurações de acesso -->
+            {# <a href="{{ url_for('config_acessos') }}">Configurações de Acesso</a>#}
+        {% endif %}
+    </nav>
+
+    <div>
+        Olá, {{ session.get('user') }}
+        <a href="{{ url_for('logout') }}" style="margin-left: 10px; color: white;">Sair</a>
+    </div>
+</header>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    Criado por Allan Vieira &copy; 2025
+</footer>
+<script>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        Swal.fire({
+          icon: '{{ 'success' if category=='success' else 'warning' if category=='warning' else 'error' if category=='error' else 'info' }}',
+          title: '{{ message|escape }}',
+          timer: 2500,
+          showConfirmButton: false
+        });
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</script>
+
+</body>
+</html>
